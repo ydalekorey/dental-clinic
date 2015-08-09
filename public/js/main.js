@@ -1,35 +1,49 @@
-/*global require, requirejs */
-
 'use strict';
 
 requirejs.config({
-  paths: {
-    'angular': ['../lib/angularjs/angular'],
-    'angular-route': ['../lib/angularjs/angular-route']
-  },
-  shim: {
-    'angular': {
-      exports : 'angular'
+    paths: {
+        'angular': ['../lib/angularjs/angular'],
+        'angular-ui-router': ['../lib/angular-ui-router/angular-ui-router']
     },
-    'angular-route': {
-      deps: ['angular'],
-      exports : 'angular'
+    shim: {
+        'angular': {
+            exports: 'angular'
+        },
+        'angular-ui-router': {
+            deps: ['angular']
+        }
     }
-  }
 });
 
-require(['angular', './controllers', './directives', './filters', './services', 'angular-route'],
-  function(angular, controllers) {
+require(['angular', 'angular-ui-router', './controllers', './directives', './filters', './services'],
+    function (angular) {
 
-    // Declare app level module which depends on filters, and services
+        angular.module('dentalClinic', ['ui.router', 'dentalClinic.controllers', 'dentalClinic.filters', 'dentalClinic.services', 'dentalClinic.directives']).
+            config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+                $stateProvider
+                    .state('application', {
+                        abstract: true,
+                        url: '/',
+                        templateUrl: 'partials/application.html'
+                    })
+                    .state('application.calendar', {
+                        url: 'calendar',
+                        templateUrl: 'partials/calendar.html',
+                        controller: 'CalendarController'
+                    })
+                    .state('application.patient', {
+                        url: 'patient',
+                        templateUrl: 'partials/patient.html',
+                        controller: 'PatientController'
+                    })
+                    .state('login', {
+                        url: '/login',
+                        templateUrl: 'partials/login.html'
+                    });
+                $urlRouterProvider.otherwise('/login');
+                $urlRouterProvider.when('/', '/calendar');
+            }]);
 
-    angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 'ngRoute']).
-      config(['$routeProvider', function($routeProvider) {
-        $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: controllers.MyCtrl1});
-        $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: controllers.MyCtrl2});
-        $routeProvider.otherwise({redirectTo: '/view1'});
-      }]);
+        angular.bootstrap(document, ['dentalClinic']);
 
-    angular.bootstrap(document, ['myApp']);
-
-});
+    });

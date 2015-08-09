@@ -1,19 +1,23 @@
-/*global define */
-
 'use strict';
 
-define(function() {
+define(['angular'], function (angular) {
 
-/* Controllers */
+    var dentalClinic = angular.module('dentalClinic.controllers', []);
 
-var controllers = {};
+    dentalClinic.controller('CalendarController', ['$scope', function ($scope) {
+        $scope.title = {text: "CalendarController"}
+    }]);
 
-controllers.MyCtrl1 = function() {}
-controllers.MyCtrl1.$inject = [];
+    dentalClinic.controller('PatientController', ['$scope', function ($scope) {
+        $scope.title = {text: 'PatientController'}
+    }]);
 
-controllers.MyCtrl2 = function() {}
-controllers.MyCtrl2.$inject = [];
-
-return controllers;
+    dentalClinic.controller('LoginController', ['$scope', '$state', function ($scope, $state) {
+        $scope.submit = function () {
+            if ($scope.username === 'Zorro' && $scope.password === 'secret') {
+                $state.go('application.calendar')
+            }
+        }
+    }]);
 
 });
