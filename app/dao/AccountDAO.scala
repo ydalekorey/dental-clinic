@@ -18,7 +18,7 @@ class AccountDAO extends HasDatabaseConfig[JdbcProfile] {
   private val Accounts = TableQuery[AccountsTable]
 
   def authenticate(email: String, password: String): Future[Option[Account]] = {
-    findByEmail(email).filter(account => BCrypt.checkpw(password, account.map(_.password).getOrElse("")))
+    findByEmail(email).map(_.filter(account => BCrypt.checkpw(password, account.password)))
   }
 
   def findByEmail(email: String): Future[Option[Account]] =
@@ -43,7 +43,7 @@ class AccountDAO extends HasDatabaseConfig[JdbcProfile] {
 
     def role = column[String]("role")
 
-    def * = (id.?, email, password, name, role) <>(Account.tupled, Account.unapply _)
+    def * = (id.?, email, password, name, role) <> (Account.tupled, Account.unapply)
   }
 
 }
