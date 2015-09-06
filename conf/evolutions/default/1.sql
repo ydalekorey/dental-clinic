@@ -9,7 +9,6 @@ CREATE TABLE `account` (
 	PRIMARY KEY (`id`),
 	UNIQUE INDEX `email` (`email`)
 )
-COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
 
 # --- !Downs
