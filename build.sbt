@@ -9,6 +9,9 @@ libraryDependencies ++= Seq(
 
   "org.mindrot" % "jbcrypt" % "0.3m",
 
+  "org.scalatestplus" %% "play" % "1.4.0-M3" % "test",
+  "org.scalamock" %% "scalamock-scalatest-support" % "3.2" % "test",
+
   "jp.t2v" %% "play2-auth"        % "0.14.0",
   "jp.t2v" %% "play2-auth-social" % "0.14.0",
   "jp.t2v" %% "play2-auth-test"   % "0.14.0" % "test",
@@ -17,6 +20,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick" % "1.0.1",
   "com.typesafe.play" %% "play-slick-evolutions" % "1.0.1",
   "mysql" % "mysql-connector-java" % "5.1.36",
+  "com.h2database" % "h2" % "1.4.187" % "test",
 
   "org.webjars" %% "webjars-play" % "2.4.0-1",
   "org.webjars.bower" % "angularjs" % "1.4.4",

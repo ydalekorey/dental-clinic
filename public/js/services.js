@@ -2,7 +2,13 @@
 
 define(['angular'], function (angular) {
 
-    angular.module('dentalClinic.services', []).
-        value('version', '0.1');
+    var services = angular.module('dentalClinic.services', ['ngResource']);
+
+    services.factory('Login', ['$resource', function ($resource) {
+        return $resource("/login", {}, {
+            login: {method: 'POST', cache: false, isArray: false}
+        });
+    }]);
+
 
 });

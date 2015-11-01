@@ -1,6 +1,6 @@
 package security
 
-// Example
+import dao.impl.AccountSlickDAO
 import jp.t2v.lab.play2.auth._
 import jp.t2v.lab.play2.auth.AuthConfig
 import models.Role.NormalUser
@@ -9,7 +9,6 @@ import play.api.mvc.Results._
 import reflect._
 import models._
 import scala.concurrent.{ExecutionContext, Future}
-// import ExecutionContext.Implicits.global
 import dao.AccountDAO
 
 trait AuthConfigImpl extends AuthConfig {
@@ -47,7 +46,7 @@ trait AuthConfigImpl extends AuthConfig {
    */
   val sessionTimeoutInSeconds: Int = 3600
 
-  val accountDAO = new AccountDAO
+  val accountDAO: AccountDAO = new AccountSlickDAO
 
   /**
    * A function that returns a `User` object from an `Id`.
