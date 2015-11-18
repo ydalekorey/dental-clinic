@@ -6,26 +6,26 @@
                     <h3 class="panel-title">Будь-ласка, введіть E-mail і пароль</h3>
                 </div>
                 <div class="panel-body">
-                    <form name="loginForm" novalidate ng-submit="login(credentials)">
+                    <form name="login.loginForm" novalidate ng-submit="login.authenticate(credentials)">
                         <fieldset>
-                            <div class="alert alert-danger" ng-show="wrongCredentials">
+                            <div class="alert alert-danger" ng-show="login.wrongCredentials">
                                 Неправильний E-mail або пароль
                             </div>
-                            <div class="form-group" ng-class="loginForm.email.$invalid && loginForm.email.$dirty ? 'has-error':''">
-                                <label class="control-label" for="email" ng-show="loginForm.email.$invalid && loginForm.email.$dirty">Введіть правильний E-mail</label>
-                                <input id="email" name="email" class="form-control" placeholder="E-mail" ng-focus="wrongCredentials=false" ng-model="credentials.email" type="email" required autofocus>
+                            <div class="form-group" ng-class="login.hasErrors('email') ? 'has-error':''">
+                                <label class="control-label" for="email" ng-show="login.hasErrors('email')">Введіть правильний E-mail</label>
+                                <input id="email" name="email" class="form-control" placeholder="E-mail" ng-model="login.credentials.email" type="email" required autofocus>
                             </div>
-                            <div class="form-group" ng-class="loginForm.password.$invalid && loginForm.password.$dirty ? 'has-error':''">
-                                <label class="control-label" for="password" ng-show="loginForm.password.$invalid && loginForm.password.$dirty">Введіть правильний пароль</label>
-                                <input id="password" name="password" class="form-control" placeholder="Пароль" ng-focus="wrongCredentials=false" ng-model="credentials.password" type="password" required>
+                            <div class="form-group" ng-class="login.hasErrors('password') ? 'has-error':''">
+                                <label class="control-label" for="password" ng-show="login.hasErrors('password')">Введіть пароль</label>
+                                <input id="password" name="password" class="form-control" placeholder="Пароль" ng-model="login.credentials.password" type="password" required>
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input ng-model="credentials.rememberMe" type="checkbox" value="Remember Me">Запам'ятати мене на цьому комп'ютері
+                                    <input ng-model="login.credentials.rememberMe" type="checkbox" value="Remember Me">Запам'ятати мене на цьому комп'ютері
                                 </label>
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
-                            <button class="btn btn-lg btn-success btn-block" ng-disabled="loginForm.$invalid">Ввійти</button>
+                            <button class="btn btn-lg btn-success btn-block" ng-disabled="login.loginForm.$invalid">Ввійти</button>
                         </fieldset>
                     </form>
                 </div>

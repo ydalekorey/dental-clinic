@@ -2,23 +2,25 @@
 
 requirejs.config({
     paths: {
-        'angular': ['../lib/angularjs/angular'],
-        'angular-ui-router': ['../lib/angular-ui-router/angular-ui-router'],
-        'angular-bootstrap': ['../lib/angular-ui-bootstrap/ui-bootstrap-tpls'],
-        'angular-resource': ['../lib/angular-resource/angular-resource'],
-        'angular-cookies': ['../lib/angular-cookies/angular-cookies'],
-        'angular-sanitize': ['../lib/angular-sanitize/angular-sanitize'],
-        'angular-animate': ['../lib/angular-animate/angular-animate'],
-        'angular-touch': ['../lib/angular-touch/angular-touch'],
-        'angular-route': ['../lib/angular-route/angular-route'],
-        'angular-loading-bar': ['../lib/angular-loading-bar/build/loading-bar'],
-        'angular-toggle-switch': ['../lib/angular-toggle-switch/angular-toggle-switch'],
-        'metis-menu': ['../lib/metisMenu/dist/metisMenu'],
-        'jquery': ['../lib/jquery/dist/jquery'],
-        'json3': ['../lib/json3/lib/json3']
+        'angular': ['../bower_components/angular/angular'],
+        'angular-ui-router': ['../bower_components/angular-ui-router/release/angular-ui-router'],
+        'angular-bootstrap': ['../bower_components/angular-bootstrap/ui-bootstrap-tpls'],
+        'angular-messages': ['../bower_components/angular-messages/angular-messages'],
+        'angular-resource': ['../bower_components/angular-resource/angular-resource'],
+        'angular-cookies': ['../bower_components/angular-cookies/angular-cookies'],
+        'angular-sanitize': ['../bower_components/angular-sanitize/angular-sanitize'],
+        'angular-animate': ['../bower_components/angular-animate/angular-animate'],
+        'angular-touch': ['../bower_components/angular-touch/angular-touch'],
+        'angular-route': ['../bower_components/angular-route/angular-route'],
+        'angular-loading-bar': ['../bower_components/angular-loading-bar/build/loading-bar'],
+        'angular-toggle-switch': ['../bower_components/angular-toggle-switch/angular-toggle-switch'],
+        'metis-menu': ['../bower_components/metisMenu/dist/metisMenu'],
+        'jquery': ['../bower_components/jquery/dist/jquery'],
+        'json3': ['../bower_components/json3/lib/json3']
     },
     shim: {
         'angular': {
+            deps: ['jquery'],
             exports: 'angular'
         },
         'angular-ui-router': ['angular'],
@@ -29,6 +31,7 @@ requirejs.config({
         'angular-animate': ['angular'],
         'angular-touch': ['angular'],
         'angular-route': ['angular'],
+        'angular-messages': ['angular'],
         'angular-loading-bar': ['angular'],
         'angular-toggle-switch': ['angular'],
         'metis-menu': ['jquery']
@@ -42,6 +45,7 @@ require(['angular',
         'angular-ui-router',
         'angular-bootstrap',
         'angular-resource',
+        'angular-messages',
         'angular-cookies',
         'angular-sanitize',
         'angular-animate',
@@ -64,6 +68,7 @@ require(['angular',
             'ngAnimate',
             'ngTouch',
             'ngRoute',
+            'ngMessages',
             'angular-loading-bar',
             'toggle-switch',
             'dentalClinic.controllers',
@@ -93,7 +98,8 @@ require(['angular',
                     .state('login',{
                         url:'/login',
                         templateUrl:'views/pages/login.html',
-                        controller: 'LoginController'
+                        controller: 'LoginController',
+                        controllerAs: 'login'
                     })
                     .state('dashboard.table',{
                         templateUrl:'views/table.html',

@@ -11,31 +11,34 @@ define(['angular'], function (angular) {
     });
 
 
-    app.controller('LoginController', ['$scope', '$state', 'Login', function ($scope, $state, Login) {
+    app.controller('LoginController', ['$state', 'Authentication', function ($state, Authentication) {
+        var LoginController = this;
 
-        $scope.wrongCredentials = false;
+        LoginController.wrongCredentials = false;
 
-        $scope.resetWrongCredentials = function () {
-            $scope.wrongCredentials = false;
-        };
+        LoginController.credentials = {email:"", password:""};
 
-        $scope.login = function (credentials) {
+        LoginController.authenticate = function (credentials) {
 
             var postData = {
                 "email": credentials.email,
                 "password": credentials.password
             };
-            Login.login({}, postData,
+            Authentication.authenticate({}, postData,
                 function success(response) {
                     $state.go('dashboard.home')
                 },
                 function error(errorResponse) {
-                    $scope.wrongCredentials = true;
+                    LoginController.wrongCredentials = true;
                 });
 
 
-        }
+        };
 
+        LoginController.hasErrors = function (field) {
+            return LoginController.loginForm[field].$touched &&
+                LoginController.loginForm[field].$invalid;
+        }
     }]);
 
 });
