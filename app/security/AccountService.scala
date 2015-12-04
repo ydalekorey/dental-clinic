@@ -10,8 +10,7 @@ import scala.concurrent.Future
 
 class AccountService @Inject() (private val accountDAO: AccountDAO) {
 
-  def authenticate(email: String, password: String): Future[Option[Account]] = {
+  def authenticate(email: String, password: String): Future[Option[Account]] =
     accountDAO.findByEmail(email).map(_.filter(account => BCrypt.checkpw(password, account.password)))
-  }
 
 }
