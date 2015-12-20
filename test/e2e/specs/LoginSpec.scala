@@ -14,55 +14,57 @@ class LoginSpec extends PlaySpec with OneServerPerTest with AllBrowsersPerTest {
 
   override def sharedTests(browser: BrowserInfo): Unit = {
 
-      "Login button on Login page" when {
-        "email is invalid" must {
-          "be disabled" +browser.name in {
+    "Login button on Login page" when {
+      "email is invalid" must {
+        "be disabled" + browser.name in {
 
-            enterCredentialsOnLoginPage(email = "email@", password = "somepassword")
+          enterCredentialsOnLoginPage(email = "email@", password = "somepassword")
 
-            find(loginPage.loginButton).get must not be 'enabled
-          }
-        }
-
-        "password is empty" must {
-          "be disabled"+browser.name in {
-
-            enterCredentialsOnLoginPage(email = "correctemail@mail.com", password = "")
-
-            find(loginPage.loginButton).get must not be 'enabled
-          }
-        }
-
-        "email is valid and password is not empty" must {
-          "be enabled"+browser.name in {
-
-            enterCredentialsOnLoginPage(email = "correctemail@mail.com", password = "some password")
-
-            find(loginPage.loginButton).get must be('enabled)
-          }
+          find(loginPage.loginButton).get must not be 'enabled
         }
       }
 
-      "Home page" must {
-        "be shown" when {
-          "correct credentials are submitted"+browser.name in {
+      "password is empty" must {
+        "be disabled" + browser.name in {
 
-            val email = "user@email.com"
-            val password = "userpassword"
-            val account = generate.copy(email = email, password = hashed(password))
-            accountDao.insert(account)
+          enterCredentialsOnLoginPage(email = "correctemail@mail.com", password = "")
 
-            enterCredentialsOnLoginPage(email = email, password = password)
-
-            click on loginPage.loginButton
-
-            eventually {
-              pageTitle must be("Dental Clinic - Home")
-            }
-
-          }
+          find(loginPage.loginButton).get must not be 'enabled
         }
       }
+
+      "email is valid and password is not empty" must {
+        "be enabled" + browser.name in {
+
+          enterCredentialsOnLoginPage(email = "correctemail@mail.com", password = "some password")
+
+          find(loginPage.loginButton).get must be('enabled)
+        }
+      }
+    }
+
+
+
+    "Home page" must {
+      "be shown" when {
+        "correct credentials are submitted" + browser.name in {
+
+          val email = "user@email.com"
+          val password = "userpassword"
+          val account = generate.copy(email = email, password = hashed(password))
+          accountDao.insert(account)
+
+          enterCredentialsOnLoginPage(email = email, password = password)
+
+          click on loginPage.loginButton
+
+          eventually {
+            pageTitle must be("Dental Clinic - Home")
+          }
+
+        }
+      }
+    }
 
   }
 
