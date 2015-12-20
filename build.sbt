@@ -11,6 +11,8 @@ libraryDependencies ++= Seq(
 
   "org.scalatestplus" %% "play" % "1.4.0-M4" % "test" ,
   "org.scalamock" %% "scalamock-scalatest-support" % "3.2" % "test",
+  //imported latest selenium version that support newest firefox
+  "org.seleniumhq.selenium" % "selenium-java" % "2.48.2" % "test",
 
 
   "jp.t2v" %% "play2-auth"        % "0.14.1",
