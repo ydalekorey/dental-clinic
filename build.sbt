@@ -9,10 +9,7 @@ libraryDependencies ++= Seq(
 
   "org.mindrot" % "jbcrypt" % "0.3m",
 
-  //excluded selenium because default selenium transitive dependency version does not support newest browsers
-  "org.scalatestplus" %% "play" % "1.4.0-M4" % "test" excludeAll ExclusionRule(organization = "org.seleniumhq.selenium"),
-  //imported selenium version that support newest browsers
-  "org.seleniumhq.selenium" % "selenium-java" % "2.48.2" % "test",
+  "org.scalatestplus" %% "play" % "1.4.0-M4" % "test" ,
   "org.scalamock" %% "scalamock-scalatest-support" % "3.2" % "test",
 
 

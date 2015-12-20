@@ -13,15 +13,15 @@
                             </div>
                             <div class="form-group" ng-class="login.hasErrors('email') ? 'has-error':''">
                                 <label id="" class="control-label" for="email" ng-show="login.hasErrors('email')">Введіть правильний E-mail</label>
-                                <input id="email" name="email" class="form-control" placeholder="E-mail" ng-model="login.credentials.email" type="email" required autofocus>
+                                <input id="email" name="email" class="form-control" placeholder="E-mail" ng-model="credentials.email" type="email" required autofocus>
                             </div>
                             <div class="form-group" ng-class="login.hasErrors('password') ? 'has-error':''">
                                 <label class="control-label" for="password" ng-show="login.hasErrors('password')">Введіть пароль</label>
-                                <input id="password" name="password" class="form-control" placeholder="Пароль" ng-model="login.credentials.password" type="password" required>
+                                <input id="password" name="password" class="form-control" placeholder="Пароль" ng-model="credentials.password" type="password" required>
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input ng-model="login.credentials.rememberMe" type="checkbox" value="Remember Me">Запам'ятати мене на цьому комп'ютері
+                                    <input ng-model="credentials.rememberMe" type="checkbox" value="Remember Me">Запам'ятати мене на цьому комп'ютері
                                 </label>
                             </div>
                             <!-- Change this to a button or input when using this as a form -->

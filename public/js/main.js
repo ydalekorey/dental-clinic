@@ -59,7 +59,7 @@ require(['angular',
         './services'],
     function (angular, $) {
 
-        angular.module('dentalClinic', [
+         var app = angular.module('dentalClinic', [
             'ui.router',
             'ui.bootstrap',
             'ngResource',
@@ -85,51 +85,90 @@ require(['angular',
                     .state('dashboard.home',{
                         url:'/home',
                         controller: 'MainCtrl',
-                        templateUrl:'views/dashboard/home.html'
+                        templateUrl:'views/dashboard/home.html',
+                        data: {
+                            title: 'Home'
+                        }
                     })
                     .state('dashboard.form',{
                         templateUrl:'views/form.html',
-                        url:'/form'
+                        url:'/form',
+                        data: {
+                            title: 'Form'
+                        }
                     })
                     .state('dashboard.blank',{
                         templateUrl:'views/pages/blank.html',
-                        url:'/blank'
+                        url:'/blank',
+                        data: {
+                            title: 'Blank'
+                        }
                     })
                     .state('login',{
                         url:'/login',
                         templateUrl:'views/pages/login.html',
                         controller: 'LoginController',
-                        controllerAs: 'login'
+                        controllerAs: 'login',
+                        data: {
+                            title: 'Login'
+                        }
                     })
                     .state('dashboard.table',{
                         templateUrl:'views/table.html',
-                        url:'/table'
+                        url:'/table',
+                        data: {
+                            title: 'Table'
+                        }
                     })
                     .state('dashboard.panels-wells',{
                         templateUrl:'views/ui-elements/panels-wells.html',
-                        url:'/panels-wells'
+                        url:'/panels-wells',
+                        data: {
+                            title: 'Panels Wells'
+                        }
                     })
                     .state('dashboard.buttons',{
                         templateUrl:'views/ui-elements/buttons.html',
-                        url:'/buttons'
+                        url:'/buttons',
+                        data: {
+                            title: 'Buttons'
+                        }
                     })
                     .state('dashboard.notifications',{
                         templateUrl:'views/ui-elements/notifications.html',
-                        url:'/notifications'
+                        url:'/notifications',
+                        data: {
+                            title: 'Notifications'
+                        }
                     })
                     .state('dashboard.typography',{
                         templateUrl:'views/ui-elements/typography.html',
-                        url:'/typography'
+                        url:'/typography',
+                        data: {
+                            title: 'Typography'
+                        }
                     })
                     .state('dashboard.icons',{
                         templateUrl:'views/ui-elements/icons.html',
-                        url:'/icons'
+                        url:'/icons',
+                        data: {
+                            title: 'Icons'
+                        }
                     })
                     .state('dashboard.grid',{
                         templateUrl:'views/ui-elements/grid.html',
-                        url:'/grid'
+                        url:'/grid',
+                        data: {
+                            title: 'Grid'
+                        }
                     })
             }]);
+
+        app.run(function($rootScope) {
+            $rootScope.$on('$stateChangeStart', function(event, toState){
+                $rootScope.title = '- ' + toState.data.title;;
+            });
+        });
 
         angular.bootstrap(document, ['dentalClinic']);
 

@@ -4,9 +4,9 @@ import dao.AccountDAO
 import org.scalamock.scalatest.MockFactory
 import org.scalatest._
 import Matchers._
-import org.mindrot.jbcrypt.BCrypt
 import org.scalatestplus.play.PlaySpec
 import scala.concurrent.duration.Duration
+import security.bcrypt._
 import generators._
 
 import scala.concurrent.{Await, Future}
@@ -23,7 +23,7 @@ class AccountServiceSpec extends PlaySpec with MockFactory {
       val email = "some@email.com"
       val password = "somepassword"
 
-      val storedAccount = generate.copy(email = email, password = BCrypt.hashpw(password, BCrypt.gensalt()))
+      val storedAccount = generate.copy(email = email, password = hashed(password))
 
       (accountDAO.findByEmail _).expects(email).returning(Future.successful(Some(storedAccount)))
 
@@ -47,7 +47,7 @@ class AccountServiceSpec extends PlaySpec with MockFactory {
       val email = "some@email.com"
       val password = "somepassword"
 
-      val storedAccount = generate.copy(email = email, password = BCrypt.hashpw(password, BCrypt.gensalt()))
+      val storedAccount = generate.copy(email = email, password = hashed(password))
 
       (accountDAO.findByEmail _).expects(email).returning(Future.successful(Some(storedAccount)))
 

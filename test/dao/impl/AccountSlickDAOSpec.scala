@@ -2,15 +2,19 @@ package dao.impl
 
 import dao.AccountDAO
 import generators._
-import mixins.InMemoryDBPerTest
+import test.Helpers._
 import org.scalatest.Matchers._
+import org.scalatest.TestData
 import org.scalatestplus.play._
 import play.api.Application
+import play.api.test.FakeApplication
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 
-class AccountSlickDAOSpec extends PlaySpec with InMemoryDBPerTest {
+class AccountSlickDAOSpec extends PlaySpec with OneAppPerTest {
+
+  override def newAppForTest(testData: TestData): Application = FakeApplication(additionalConfiguration = inMemorySlickDatabase())
 
   def accountDao(implicit app: Application) = {
     val app2AccountDAO = Application.instanceCache[AccountDAO]

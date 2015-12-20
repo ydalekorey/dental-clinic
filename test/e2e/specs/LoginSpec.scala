@@ -1,34 +1,23 @@
 package e2e.specs
 
+import dao.AccountDAO
 import e2e.pages.LoginPage
+import generators._
+import org.scalatest.TestData
 import org.scalatestplus.play._
+import play.api.Application
 import play.api.test.FakeApplication
-import play.api.mvc.Action
-import play.api.mvc.Results._
+import security.bcrypt._
+import test.Helpers._
 
+class LoginSpec extends PlaySpec with OneServerPerTest with OneBrowserPerTest with ChromeFactory {
 
-class LoginSpec extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite with ChromeFactory {
-
-  val loginPage = new LoginPage
-
-  implicit override lazy val app: FakeApplication =
-    FakeApplication(
-      additionalConfiguration = Map("ehcacheplugin" -> "disabled")
-    )
 
   "Login button on Login page" when {
-
     "email is invalid" must {
       "be disabled" in {
-        go to loginPage
 
-        eventually {
-          click on loginPage.email
-        }
-        enter("email@")
-
-        click on loginPage.password
-        enter("somepassword")
+        enterCredentialsOnLoginPage(email = "email@", password = "somepassword")
 
         find(loginPage.loginButton).get must not be 'enabled
       }
@@ -36,15 +25,8 @@ class LoginSpec extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite 
 
     "password is empty" must {
       "be disabled" in {
-        go to loginPage
 
-        eventually {
-          click on loginPage.email
-        }
-        enter("correctemail@mail.com")
-
-        click on loginPage.password
-        enter("")
+        enterCredentialsOnLoginPage(email = "correctemail@mail.com", password = "")
 
         find(loginPage.loginButton).get must not be 'enabled
       }
@@ -52,19 +34,55 @@ class LoginSpec extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite 
 
     "email is valid and password is not empty" must {
       "be enabled" in {
-        go to loginPage
 
-        eventually {
-          click on loginPage.email
-        }
-        enter("correctemail@mail.com")
-
-        click on loginPage.password
-        enter("some password")
+        enterCredentialsOnLoginPage(email = "correctemail@mail.com", password = "some password")
 
         find(loginPage.loginButton).get must be ('enabled)
       }
     }
+  }
+
+  "Home page" must {
+    "be shown" when  {
+      "correct credentials are submitted" in {
+
+        val email = "user@email.com"
+        val password = "userpassword"
+        val account = generate.copy(email = email, password = hashed(password))
+        accountDao.insert(account)
+
+        enterCredentialsOnLoginPage(email = email, password = password)
+
+        click on loginPage.loginButton
+
+        eventually {
+          pageTitle must be ("Dental Clinic - Home")
+        }
+
+      }
+    }
+  }
+
+  val loginPage = new LoginPage
+
+  override def newAppForTest(testData: TestData): Application =
+    FakeApplication(additionalConfiguration = inMemorySlickDatabase())
+
+  def accountDao(implicit app: Application) = {
+    val app2AccountDAO = Application.instanceCache[AccountDAO]
+    app2AccountDAO(app)
+  }
+
+  private def enterCredentialsOnLoginPage(email: String, password: String): Unit = {
+    go to loginPage
+
+    eventually {
+      click on loginPage.email
+    }
+    enter(email)
+
+    click on loginPage.password
+    enter(password)
   }
 
 }
