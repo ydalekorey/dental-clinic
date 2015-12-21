@@ -15,4 +15,6 @@ class LoginPage extends Page {
 
   val loginButton = "login-button"
 
+  val wrongCredentialsAlert= "wrong-credentials-alert"
+
 }
