@@ -16,7 +16,7 @@ class LoginSpec extends PlaySpec with OneServerPerTest with AllBrowsersPerTest {
 
     "Login button on Login page" when {
       "email is invalid" must {
-        "be disabled"+ browser.name in {
+        "be disabled" + browser.name in {
 
           enterCredentialsOnLoginPage(email = "email@", password = "somepassword")
 
@@ -25,7 +25,7 @@ class LoginSpec extends PlaySpec with OneServerPerTest with AllBrowsersPerTest {
       }
 
       "password is empty" must {
-        "be disabled"+ browser.name in {
+        "be disabled" + browser.name in {
 
           enterCredentialsOnLoginPage(email = "correctemail@mail.com", password = "")
 
@@ -34,7 +34,7 @@ class LoginSpec extends PlaySpec with OneServerPerTest with AllBrowsersPerTest {
       }
 
       "email is valid and password is not empty" must {
-        "be enabled"+ browser.name in {
+        "be enabled" + browser.name in {
 
           enterCredentialsOnLoginPage(email = "correctemail@mail.com", password = "some password")
 
@@ -43,25 +43,22 @@ class LoginSpec extends PlaySpec with OneServerPerTest with AllBrowsersPerTest {
       }
     }
 
-   "Login page" must {
+    "Login page" must {
       "contain wrong credentials error message" when {
-        "submitted credentials are wrong"+ browser.name in {
+        "submitted credentials are wrong" + browser.name in {
           enterCredentialsOnLoginPage(email = "some@mail.com", password = "somepassword")
 
           click on loginPage.loginButton
 
           eventually {
             val loginErrorAlert = find(loginPage.wrongCredentialsAlert).get
-            loginErrorAlert  must be('displayed)
+            loginErrorAlert must be('displayed)
             loginErrorAlert.text must equal("Неправильний E-mail або пароль")
           }
         }
       }
-    }
-
-    "Login page" must {
       "not contain wrong credentials error message" when {
-        "login form is not touched"+ browser.name in {
+        "login form is not touched" + browser.name in {
 
           go to loginPage
 
@@ -74,7 +71,7 @@ class LoginSpec extends PlaySpec with OneServerPerTest with AllBrowsersPerTest {
 
     "Home page" must {
       "be shown" when {
-        "correct credentials are submitted"+ browser.name in {
+        "correct credentials are submitted" + browser.name in {
 
           val email = "user@email.com"
           val password = "userpassword"
