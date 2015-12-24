@@ -38,7 +38,7 @@ class LoginSpec extends PlaySpec with OneServerPerTest with AllBrowsersPerTest {
 
           enterCredentialsOnLoginPage(email = "correctemail@mail.com", password = "some password")
 
-          find(loginPage.loginButton).get must be('enabled)
+          find(loginPage.loginButton).get mustBe 'enabled
         }
       }
     }
@@ -52,8 +52,8 @@ class LoginSpec extends PlaySpec with OneServerPerTest with AllBrowsersPerTest {
 
           eventually {
             val loginErrorAlert = find(loginPage.wrongCredentialsAlert).get
-            loginErrorAlert must be('displayed)
-            loginErrorAlert.text must equal("Неправильний E-mail або пароль")
+            loginErrorAlert mustBe 'displayed
+            loginErrorAlert.text mustEqual "Неправильний E-mail або пароль"
           }
         }
       }
@@ -83,7 +83,7 @@ class LoginSpec extends PlaySpec with OneServerPerTest with AllBrowsersPerTest {
           click on loginPage.loginButton
 
           eventually {
-            pageTitle must be("Dental Clinic - Home")
+            pageTitle must include ("Dental Clinic - Home")
           }
 
         }
