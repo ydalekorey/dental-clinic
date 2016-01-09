@@ -26,7 +26,7 @@ define(['angular'], function (angular) {
             };
             Authentication.authenticate({}, postData,
                 function success(response) {
-                    $state.go('dashboard.home')
+                    $state.go('dashboard.schedule')
                 },
                 function error(errorResponse) {
                     LoginController.wrongCredentials = true;
@@ -64,62 +64,7 @@ define(['angular'], function (angular) {
             {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
             {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
         ];
-        /* event source that calls a function on every view switch */
-        ScheduleController.eventsF = function (start, end, timezone, callback) {
-            var s = new Date(start).getTime() / 1000;
-            var e = new Date(end).getTime() / 1000;
-            var m = new Date(start).getMonth();
-            var events = [{title: 'Feed Me ' + m,start: s + (50000),end: s + (100000),allDay: false, className: ['customFeed']}];
-            callback(events);
-        };
 
-        ScheduleController.calEventsExt = {
-            color: '#f00',
-            textColor: 'yellow',
-            events: [
-                {type:'party',title: 'Lunch',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
-                {type:'party',title: 'Lunch 2',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
-                {type:'party',title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
-            ]
-        };
-        /* alert on eventClick */
-        ScheduleController.alertOnEventClick = function( date, jsEvent, view){
-            ScheduleController.alertMessage = (date.title + ' was clicked ');
-        };
-        /* alert on Drop */
-        ScheduleController.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
-            ScheduleController.alertMessage = ('Event Droped to make dayDelta ' + delta);
-        };
-        /* alert on Resize */
-        ScheduleController.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
-            ScheduleController.alertMessage = ('Event Resized to make dayDelta ' + delta);
-        };
-        /* add and removes an event source of choice */
-        ScheduleController.addRemoveEventSource = function(sources,source) {
-            var canAdd = 0;
-            angular.forEach(sources,function(value, key){
-                if(sources[key] === source){
-                    sources.splice(key,1);
-                    canAdd = 1;
-                }
-            });
-            if(canAdd === 0){
-                sources.push(source);
-            }
-        };
-        /* add custom event*/
-        ScheduleController.addEvent = function() {
-            ScheduleController.events.push({
-                title: 'Open Sesame',
-                start: new Date(y, m, 28),
-                end: new Date(y, m, 29),
-                className: ['openSesame']
-            });
-        };
-        /* remove event */
-        ScheduleController.remove = function(index) {
-            ScheduleController.events.splice(index,1);
-        };
         /* Change View */
         ScheduleController.changeView = function(view,calendar) {
             uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
@@ -130,12 +75,7 @@ define(['angular'], function (angular) {
                 uiCalendarConfig.calendars[calendar].fullCalendar('render');
             }
         };
-        /* Render Tooltip */
-        ScheduleController.eventRender = function( event, element, view ) {
-            element.attr({'tooltip': event.title,
-                'tooltip-append-to-body': true});
-            $compile(element)($scope);
-        };
+
         /* config object */
         ScheduleController.uiConfig = {
             calendar:{
@@ -146,27 +86,13 @@ define(['angular'], function (angular) {
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
-                eventClick: ScheduleController.alertOnEventClick,
-                eventDrop: ScheduleController.alertOnDrop,
-                eventResize: ScheduleController.alertOnResize,
                 eventRender: ScheduleController.eventRender
             }
         };
 
-        ScheduleController.changeLang = function() {
-            if(ScheduleController.changeTo === 'Hungarian'){
-                ScheduleController.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
-                ScheduleController.uiConfig.calendar.dayNamesShort = ["Vas", "Hét", "Kedd", "Sze", "Csüt", "Pén", "Szo"];
-                ScheduleController.changeTo= 'English';
-            } else {
-                ScheduleController.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                ScheduleController.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-                ScheduleController.changeTo = 'Hungarian';
-            }
-        };
+
         /* event sources array*/
-        ScheduleController.eventSources = [ScheduleController.events, ScheduleController.eventSource, ScheduleController.eventsF];
-        ScheduleController.eventSources2 = [ScheduleController.calEventsExt, ScheduleController.eventsF, ScheduleController.events];
+        ScheduleController.eventSources = [ScheduleController.events, ScheduleController.eventSource];
     }]);
 
 });
